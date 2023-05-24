@@ -1,13 +1,12 @@
 # SekoEcomApi
 
-An API wrapper gem for Seko OmniReturns and OmniRPS
+An API wrapper gem for Seko OmniReturns
 
-- Available Rates
+- OmniReturns
 
-- OmniReturns Label Creation
+  - Available Rates
 
-- OmniRPS Return Upload
-
+  - Shipment Creation
 
 ## Installation
 
@@ -19,23 +18,15 @@ gem "seko_ecom_api"
 
 And then execute:
 
-		$ bundle install
+    $ bundle install
 
 Or install it yourself as:
 
-		$ gem install seko_ecom_api
+    $ gem install seko_ecom_api
 
 ## Usage
 
-### Available Rates
-
-TBA
-
-### OmniReturns Label Creation
-
-TBA
-
-### OmniRPS Return Upload
+### OmniReturns
 
 TBA
 
