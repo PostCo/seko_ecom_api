@@ -24,8 +24,6 @@ module SekoEcomAPI
       Shipment.new(response)
     end
 
-    private
-
     def connection
       @connection ||= Faraday.new do |conn|
         conn.url_prefix = test ? TEST_BASE_URL : BASE_URL
@@ -38,6 +36,10 @@ module SekoEcomAPI
       end
     end
 
+    private
+
+    # since Seko seems to send a 200 OK response even if there're errors
+    # we will need to also check for errors in the response body
     def handle_response(response)
       super
       parsed_response = parse_response(response)
@@ -48,6 +50,9 @@ module SekoEcomAPI
       parsed_response
     end
 
+    # need to be manual parsed here instead of in the middleware
+    # since Seko response's Content-Type is always in 'text/html'
+    # with the response body can be in JSON or in html
     def parse_response(response)
       parsed_response = JSON.parse(response.body)
       parsed_response.deep_transform_keys(&:underscore)
