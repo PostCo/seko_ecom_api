@@ -32,10 +32,13 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency 'activesupport'
   spec.add_dependency 'faraday', '~> 2.7'
   spec.add_dependency 'faraday-encoding'
   spec.add_dependency 'faraday-http'
-  spec.add_dependency 'rspec'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'dotenv'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

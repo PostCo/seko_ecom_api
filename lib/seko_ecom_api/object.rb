@@ -1,4 +1,5 @@
 require 'ostruct'
+require 'active_support/core_ext/string'
 
 module SekoEcomAPI
   class Object < OpenStruct
@@ -8,7 +9,7 @@ module SekoEcomAPI
 
     def to_ostruct(obj)
       if obj.is_a? Hash
-        OpenStruct.new(obj.map { |key, val| [key, to_ostruct(val)] }.to_h)
+        OpenStruct.new(obj.transform_values { |val| to_ostruct(val) }.to_h)
       elsif obj.is_a? Array
         obj.map { |o| to_ostruct(o) }
       else

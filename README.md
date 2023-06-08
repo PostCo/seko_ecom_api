@@ -4,9 +4,11 @@ An API wrapper gem for Seko OmniReturns
 
 - OmniReturns
 
-  - Available Rates
-
   - Shipment Creation
+
+- OmniParcel
+
+  - Available Rates
 
 ## Installation
 
@@ -28,6 +30,46 @@ Or install it yourself as:
 
 ### OmniReturns
 
+```ruby
+omni_returns_client = SekoEcomAPI::OmniReturnsClient.new(access_key: ENV['ACCESS_KEY'])
+
+# Create shiment (or label creation)
+omni_returns_client.create_shipment(params)
+
+# Params' keys should be in snake case
+# For example:
+destination = {
+	"address" : {
+	"building_name" : "",
+	"street_address": "123th St",
+	"suburb": "Los Angeles",
+	"city": "CA",
+	"post_code": "90013",
+	"country_code": "US"
+	}
+}
+```
+
+For testing purpose, you will need to set `test` to true
+```ruby
+omni_returns_client = SekoEcomAPI::OmniReturnsClient.new(access_key: ENV['ACCESS_KEY'], test: true)
+```
+
+For error handling, you might encounter SekoEcomAPI::Error and SekoEcomAPI::ParseError
+```ruby
+begin
+	omni_returns_client.create_shipment(params)
+rescue SekoEcomAPI::Error => err
+	# The error message should be sufficient enough
+rescue SekoEcomAPI::ParseError => err
+	# Will be thrown if response's body is not in JSON format
+	# Call response.body and response.headers to debug
+	puts err.response.body
+	puts err.response.headers
+end
+```
+
+### OmniParcel
 TBA
 
 ## Development
