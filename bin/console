@@ -1,15 +1,20 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "bundler/setup"
-require "seko_ecom_api"
+require 'bundler/setup'
+require 'seko_ecom_api'
+require 'dotenv/load'
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
 # (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
+
+omni_returns_client = SekoEcomAPI::OmniReturnsClient.new(access_key: ENV['ACCESS_KEY'], test: true)
+puts 'An omni_returns_client is created for testing purpose'
+
+require "pry"
 # Pry.start
 
-require "irb"
+require 'irb'
 IRB.start(__FILE__)
