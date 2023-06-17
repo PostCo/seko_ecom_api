@@ -10,6 +10,9 @@ require 'dotenv/load'
 
 # (If you use this, don't forget to add pry to your Gemfile!)
 
+omni_parcel_client = SekoEcomAPI::OmniParcelClient.new(access_key: ENV['ACCESS_KEY'])
+puts 'An omni_parcel_client is created for testing purpose'
+
 omni_returns_client = SekoEcomAPI::OmniReturnsClient.new(access_key: ENV['ACCESS_KEY'], test: true)
 puts 'An omni_returns_client is created for testing purpose'
 

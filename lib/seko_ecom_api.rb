@@ -11,5 +11,6 @@ module SekoEcomAPI
   autoload :Shipment, 'seko_ecom_api/objects/shipment'
 
   # Clients
+  autoload :OmniParcelClient, 'seko_ecom_api/clients/omni_parcel_client'
   autoload :OmniReturnsClient, 'seko_ecom_api/clients/omni_returns_client'
 end
