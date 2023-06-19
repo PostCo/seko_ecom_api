@@ -40,12 +40,12 @@ omni_returns_client.create_shipment(params)
 # For example:
 destination = {
 	"address" : {
-	"building_name" : "",
-	"street_address": "123th St",
-	"suburb": "Los Angeles",
-	"city": "CA",
-	"post_code": "90013",
-	"country_code": "US"
+		"building_name" : "",
+		"street_address": "123th St",
+		"suburb": "Los Angeles",
+		"city": "CA",
+		"post_code": "90013",
+		"country_code": "US"
 	}
 }
 ```
@@ -56,6 +56,7 @@ omni_returns_client = SekoEcomAPI::OmniReturnsClient.new(access_key: ENV['ACCESS
 ```
 
 For error handling, you might encounter SekoEcomAPI::Error and SekoEcomAPI::ParseError
+
 ```ruby
 begin
 	omni_returns_client.create_shipment(params)
@@ -70,7 +71,23 @@ end
 ```
 
 ### OmniParcel
-TBA
+
+```ruby
+omni_parcel_client = SekoEcomAPI::OmniParcelClient.new(access_key: ENV['ACCESS_KEY'])
+
+# Retrieve rates
+omni_parcel_client.retrieve_rates(params)
+```
+
+For error handle, there will only be SekoEcomAPI::Error with the Validation errors message
+
+```ruby
+begin
+  omni_parcel_client.retrieve_rates(params)
+rescue SekoEcomAPI::Error => err
+end
+
+```
 
 ## Development
 
