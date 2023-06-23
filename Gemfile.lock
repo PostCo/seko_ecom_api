@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seko_ecom_api (0.1.1)
+    seko_ecom_api (0.1.2)
       activesupport
       faraday (~> 2.7)
       faraday-encoding

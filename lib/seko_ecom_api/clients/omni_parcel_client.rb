@@ -19,7 +19,7 @@ module SekoEcomAPI
     end
 
     def retrieve_rates(params)
-      response = handle_response post_request('ratesqueryv1/availablerates', params: params)
+      response = handle_response post_request('ratesqueryv1/availablerates', params: parse_params(params))
 
       available_rates = response['available']&.map { |rate| Rate.new(rate) }
       rejected_rates = response['rejected']&.map { |rate| Rate.new(rate) }
