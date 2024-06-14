@@ -45,7 +45,7 @@ module SekoEcomAPI
       parsed_response = parse_response(response)
       response_errors = parsed_response['errors']
 
-      raise(Error, "Something went wrong. #{response_errors}") unless response_errors.empty?
+      raise(Error, "Something went wrong. #{response_errors}") unless response_errors&.empty?
 
       parsed_response
     end
