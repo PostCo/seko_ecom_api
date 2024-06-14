@@ -41,9 +41,8 @@ module SekoEcomAPI
     # since Seko seems to send a 200 OK response even if there're errors
     # we will need to also check for errors in the response body
     def handle_response(response)
-      super
       parsed_response = parse_response(response)
-      response_errors = parsed_response['errors']
+      response_errors = parsed_response['errors'] || parsed_response['message']
 
       raise(Error, "Something went wrong. #{response_errors}") unless response_errors&.empty?
 
