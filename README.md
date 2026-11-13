@@ -106,3 +106,13 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the SekoEcomApi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/seko_ecom_api/blob/pc-2546-setup-sekoecomapi/CODE_OF_CONDUCT.md).
+
+## Publishing
+
+Pushing a version tag publishes the gem through RubyGems trusted publishing (`.github/workflows/publish.yml`). Bump `lib/seko_ecom_api/version.rb`, add a CHANGELOG entry, merge to `main`, then tag that commit:
+
+```sh
+git tag v0.1.8 && git push origin v0.1.8
+```
+
+The workflow fails if the tag doesn't match the version.
