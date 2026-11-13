@@ -9,4 +9,7 @@ module SekoEcomAPI
       @response = response
     end
   end
+
+  class RedirectError < ParseError
+  end
 end
