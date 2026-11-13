@@ -65,6 +65,39 @@ RSpec.describe SekoEcomAPI::OmniReturnsClient do
           expect { subject.create_shipment({}) }.to raise_error(SekoEcomAPI::ParseError)
         end
       end
+
+      context 'when Seko redirects the request' do
+        let(:new_url) { 'https://test.omniparcelreturns.com/moved/labels/printshipment' }
+        let(:status) { 307 }
+        let(:seko_response) { '<html><title>307 Temporary Redirect</title></html>' }
+
+        before do
+          stub_request(:post, create_shipment_url)
+            .to_return(status: status, body: seko_response, headers: { 'Location' => new_url })
+        end
+
+        it 'raises a RedirectError that names the new address' do
+          expect { subject.create_shipment({}) }.to raise_error(SekoEcomAPI::RedirectError, /#{Regexp.escape(new_url)}/)
+        end
+
+        it 'keeps the response for callers that rescue ParseError' do
+          expect { subject.create_shipment({}) }.to raise_error(SekoEcomAPI::ParseError) { |error|
+            expect(error.response.headers['location']).to eq new_url
+          }
+        end
+      end
+    end
+  end
+
+  describe '#create_shipment in production' do
+    subject { SekoEcomAPI::OmniReturnsClient.new(access_key: 'key') }
+
+    it 'posts to the /api/ address Seko moved the label API to' do
+      label_request = stub_request(:post, 'https://www.omniparcelreturns.com/api/labels/printshipment')
+                      .to_return(status: 200, body: { 'CarrierName': 'foo', 'Errors': [] }.to_json)
+
+      expect(subject.create_shipment({})).to be_a SekoEcomAPI::Shipment
+      expect(label_request).to have_been_requested
     end
   end
 end

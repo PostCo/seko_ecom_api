@@ -7,7 +7,7 @@ module SekoEcomAPI
   class OmniReturnsClient
     include Client
 
-    BASE_URL = 'https://www.omniparcelreturns.com/index.php/api/'.freeze
+    BASE_URL = 'https://www.omniparcelreturns.com/api/'.freeze
     TEST_BASE_URL = 'https://test.omniparcelreturns.com/index.php/api/'.freeze
 
     attr_reader :access_key, :adapter, :test, :conn_opts
@@ -41,12 +41,19 @@ module SekoEcomAPI
     # since Seko seems to send a 200 OK response even if there're errors
     # we will need to also check for errors in the response body
     def handle_response(response)
+      raise_redirect(response) if (300..399).cover?(response.status)
+
       parsed_response = parse_response(response)
       response_errors = parsed_response['errors'] || parsed_response['message']
 
       raise(Error, "Something went wrong. #{response_errors}") unless response_errors&.empty?
 
       parsed_response
+    end
+
+    def raise_redirect(response)
+      message = "Seko redirected the request to #{response.headers['location']}."
+      raise RedirectError.new(message, error_response(response))
     end
 
     # need to be manual parsed here instead of in the middleware
@@ -56,8 +63,11 @@ module SekoEcomAPI
       parsed_response = JSON.parse(response.body)
       parsed_response.deep_transform_keys(&:underscore)
     rescue JSON::ParserError
-      error_response = Struct.new(:body, :headers).new(response.body, response.headers)
-      raise ParseError.new('Response body cannot be parsed.', error_response)
+      raise ParseError.new('Response body cannot be parsed.', error_response(response))
+    end
+
+    def error_response(response)
+      Struct.new(:body, :headers).new(response.body, response.headers)
     end
   end
 end
